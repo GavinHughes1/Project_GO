@@ -8,9 +8,9 @@ class Board(QFrame):  # base the board on a QFrame widget
     clickLocationSignal = pyqtSignal(str) # signal sent when there is a new click location
 
     # TODO set the board width and height to be square
-    boardWidth  = 0     # board is 0 squares wide # TODO this needs updating
-    boardHeight = 0     #
-    timerSpeed  = 1     # the timer updates ever 1 second
+    boardWidth  = 7     # board is 0 squares wide # TODO this needs updating
+    boardHeight = 7     #
+    timerSpeed  = 10000     # the timer updates ever 1 second
     counter     = 10    # the number the counter will count down from
 
     def __init__(self, parent):
@@ -64,9 +64,9 @@ class Board(QFrame):  # base the board on a QFrame widget
 
     def paintEvent(self, event):
         '''paints the board and the pieces of the game'''
-        # painter = QPainter(self)
+        painter = QPainter(self)
         # self.drawBoardSquares(painter)
-        # self.drawPieces(painter)
+        self.drawPieces(painter)
 
     def mousePressEvent(self, event):
         '''this event is automatically called when the mouse is pressed'''
@@ -74,6 +74,16 @@ class Board(QFrame):  # base the board on a QFrame widget
         print("mousePressEvent() - "+clickLoc)
         # TODO you could call some game logic here
         self.clickLocationSignal.emit(clickLoc)
+        
+        # TODO **Evandro** Implement mouse clicking and localion
+        # Setting lasPoint position
+        self.lastPoint = event.pos()
+        print(self.lastPoint)
+        
+        # event.y()
+        # if event.y() < 100:
+        #     self.paintEvent()
+        # event.y()
 
     def resetGame(self):
         '''clears pieces from the board'''
@@ -108,4 +118,5 @@ class Board(QFrame):  # base the board on a QFrame widget
                 radius = (self.squareWidth() - 2) / 2
                 center = QPoint(radius, radius)
                 painter.drawEllipse(center, radius, radius)
+                
                 painter.restore()
